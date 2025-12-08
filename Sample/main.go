@@ -84,6 +84,10 @@ func main() {
 	//fmt.Println(amount, futureRealValue)
 	//fmt.Println(futureRealValue)
 
-	fmt.Printf("Future Value: %T\n%0.2f\nFuture value(adjusted for inflation): %0.2f\n", amount, amount, futureRealValue)
+	formattedFV := fmt.Sprintf("Future Value: %.2f\n", amount)
+	formattedRFV := fmt.Sprintf("Future value(adjusted for inflation: %.2f\n", futureRealValue)
+	//fmt.Printf("Future Value: %T\n%0.2f\nFuture value(adjusted for inflation): %0.2f\n", amount, amount, futureRealValue)
 	//%T for amount, then two decimal places for amount, then two decimal places for futureRealValue
+
+	fmt.Print(formattedFV, formattedRFV)
 }
