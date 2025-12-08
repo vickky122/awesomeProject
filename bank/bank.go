@@ -3,6 +3,7 @@ package main
 import (
 	"awesomeProject/bank/fileops"
 	"fmt"
+	"github.com/Pallinder/go-randomdata"
 )
 
 const accountBalanceFile = "balance.txt"
@@ -13,9 +14,10 @@ func main() {
 		fmt.Println("ERROR")
 		fmt.Println(err)
 		fmt.Println("-------")
-		panic("Can't continue. Sorry")
+		//panic("Can't continue. Sorry")
 	}
-
+	fmt.Println("Welcome to Go Bank!")
+	fmt.Println("Reach us 24/7", randomdata.PhoneNumber())
 	for {
 		presentOptions()
 
