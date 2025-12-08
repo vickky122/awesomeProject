@@ -69,7 +69,15 @@ func main() {
 	var price float64
 	rate := 5.0
 	year := 10.0
+
+	fmt.Printf("Enter the price: ")
 	fmt.Scan(&price)
+
+	fmt.Printf("Enter the rate: ")
+	fmt.Scan(&rate)
+
+	fmt.Printf("Enter the year: ")
+	fmt.Scan(&year)
 	amount := price * math.Pow(1+rate/100, year)
 	futureRealValue := amount / math.Pow(1+inflationRate/100, year)
 	fmt.Println(amount, futureRealValue)
