@@ -67,8 +67,8 @@ func main() {
 
 	const inflationRate = 2.5
 	var price float64
-	rate := 5.0
-	year := 10.0
+	var rate float64
+	var year float64
 
 	fmt.Printf("Enter the price: ")
 	fmt.Scan(&price)
