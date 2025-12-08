@@ -44,8 +44,9 @@ func main() {
 func outputText(text string) {
 	fmt.Print(text)
 }
-func calculateFutureValues(price, rate, year float64) (float64, float64) {
-	famount := price * math.Pow(1+rate/100, year)
-	fRealValue := famount / math.Pow(1+inflationRate/100, year)
-	return famount, fRealValue
+func calculateFutureValues(price, rate, year float64) (famount float64, fRealValue float64) {
+	famount = price * math.Pow(1+rate/100, year)
+	fRealValue = famount / math.Pow(1+inflationRate/100, year)
+	//return famount, fRealValue
+	return
 }
