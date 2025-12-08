@@ -1,4 +1,4 @@
-package profit_calculator
+package main
 
 import "fmt"
 
