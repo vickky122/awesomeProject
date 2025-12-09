@@ -18,3 +18,13 @@ Uses 64 bits (8 bytes) of memory.
 Provides approximately 15-16 decimal digits of precision.
 Offers a much larger range, approximately ±1.8 × 10³⁰⁸.
 Provides greater accuracy but comes with the cost of increased memory usage and potentially slower computation times compared to float32. It is preferred for applications requiring high numerical accuracy, such as scientific computing, financial calculations, and simulations where precision is paramount.
+
+
+
+
+
+we can change the data or mutate the data by using pointers as if without using the pointers if we try to change it then
+it is only going to perform on the copied value and if we try to access it, then we will get the same value
+as copied values have been changed, not the origional value.
+So for changing the origional value we must mutate using the pointers so as to see the changes in the origional values
+
