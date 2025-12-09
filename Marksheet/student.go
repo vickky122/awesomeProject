@@ -1,10 +1,14 @@
 package main
 
-import "fmt"
+import (
+	"encoding/json"
+	"fmt"
+	"os"
+)
 
 type Student struct {
-	Name  string
-	Marks []int
+	Name  string `json:"name"`
+	Marks []int  `json:"marks"`
 }
 
 func (s Student) Average() float64 {
@@ -17,26 +21,43 @@ func (s Student) Average() float64 {
 
 func (s Student) Grade() string {
 	avg := s.Average()
-
-	if avg >= 90 {
+	switch {
+	case avg >= 90:
 		return "A"
-	} else if avg >= 75 {
+	case avg >= 75:
 		return "B"
-	} else if avg >= 60 {
+	case avg >= 60:
 		return "C"
-	} else if avg >= 40 {
+	case avg >= 40:
 		return "D"
 	}
 	return "F"
 }
 
-func main() {
-	s := Student{
-		Name:  "Vikrant",
-		Marks: []int{85, 90, 80, 75},
-	}
+func (s *Student) AddMark(m int) {
+	s.Marks = append(s.Marks, m)
+}
 
-	fmt.Println("Name:", s.Name)
+func (s Student) SaveToFile(filename string) error {
+	data, err := json.MarshalIndent(s, "", "  ")
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(filename, data, 0644)
+}
+
+func main() {
+	s := Student{Name: "Vikrant", Marks: []int{80, 85, 90}}
+	s.AddMark(95)
+
+	fmt.Println(s.Name)
 	fmt.Println("Average:", s.Average())
 	fmt.Println("Grade:", s.Grade())
+
+	err := s.SaveToFile("student.json")
+	if err != nil {
+		fmt.Println("Error writing file:", err)
+	} else {
+		fmt.Println("student.json file created successfully.")
+	}
 }
