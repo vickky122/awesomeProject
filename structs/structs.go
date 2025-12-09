@@ -6,66 +6,63 @@ import (
 	"time"
 )
 
-type user struct {
+type User struct {
 	firstName string
 	lastName  string
 	birthDate string
 	createdAt time.Time
 }
 
-func NewUser(firstName, lastName, birthDate string) (*user, error) {
-	if firstName == "" || lastName == "" || birthDate == "" {
-		return nil, errors.New("Invalid user data ")
+func NewUser(first, last, dob string) (*User, error) {
+	if first == "" || last == "" || dob == "" {
+		return nil, errors.New("invalid user data")
 	}
-
-	return &user{
-		firstName: firstName,
-		lastName:  lastName,
-		birthDate: birthDate,
+	return &User{
+		firstName: first,
+		lastName:  last,
+		birthDate: dob,
 		createdAt: time.Now(),
 	}, nil
 }
 
-func (u user) fullName() string {
+func (u User) FullName() string {
 	return u.firstName + " " + u.lastName
 }
-func (u *user) updateFirstName(newFirstName string) {
-	u.firstName = newFirstName
+
+type Admin struct {
+	User
+	Password string
 }
-func main() {
-	user1 := user{
-		firstName: "John",
-		lastName:  "Doe",
-		birthDate: "1990-01-01",
-		createdAt: time.Now(),
-	}
-	user2 := user{
-		firstName: "vikrant",
-		lastName:  "yadav",
-		birthDate: "1990-01-01",
-		createdAt: time.Now(),
-	}
-	user3 := &user{
-		firstName: "vikrant",
-		lastName:  "yadav",
-		birthDate: "1990-01-01",
-		createdAt: time.Now(),
+
+func NewAdmin(first, last, dob, password string) (*Admin, error) {
+	user, err := NewUser(first, last, dob)
+	if err != nil {
+		return nil, err
 	}
 
-	user4, err := NewUser("", "", "")
+	if password == "" {
+		return nil, errors.New("password required")
+	}
+
+	return &Admin{
+		User:     *user,
+		Password: password,
+	}, nil
+}
+
+func (a Admin) ShowAdminDetails() {
+	fmt.Println("Admin Name:", a.FullName())
+	fmt.Println("Birth Date:", a.birthDate)
+	fmt.Println("Account Created:", a.createdAt)
+	fmt.Println("Admin Password:", a.Password)
+}
+
+func main() {
+	admin, err := NewAdmin("Vikrant", "Yadav", "1777-07-07", "supersecret123")
 	if err != nil {
 		fmt.Println(err)
 		return
-	} else {
-		fmt.Println(user4)
 	}
-	fmt.Println(user1)
-	fmt.Println(user2)
-	fmt.Println(*user3)
 
-	user2.fullName()
-	user3.updateFirstName("vicky")
-
-	fmt.Println(user2)
-	fmt.Println(*user3)
+	admin.ShowAdminDetails()
 }
