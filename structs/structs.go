@@ -12,6 +12,12 @@ type user struct {
 	createdAt time.Time
 }
 
+func (u user) fullName() string {
+	return u.firstName + " " + u.lastName
+}
+func (u user) updateFirstName(newFirstName string) {
+	u.firstName = newFirstName
+}
 func main() {
 	user1 := user{
 		firstName: "John",
@@ -23,6 +29,21 @@ func main() {
 		firstName: "vikrant",
 		lastName:  "yadav",
 		birthDate: "1990-01-01",
+		createdAt: time.Now(),
 	}
-	fmt.Println(user1, user2)
+	user3 := &user{
+		firstName: "vikrant",
+		lastName:  "yadav",
+		birthDate: "1990-01-01",
+		createdAt: time.Now(),
+	}
+	fmt.Println(user1)
+	fmt.Println(user2)
+	fmt.Println(*user3)
+
+	user2.fullName()
+	user3.updateFirstName("vicky")
+
+	fmt.Println(user2)
+	fmt.Println(*user3)
 }
