@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 )
 
 type Logger interface {
@@ -23,6 +24,15 @@ func (f FileLogger) Log(msg string) {
 	fmt.Fprintln(f.File, "[FILE]", msg)
 }
 
+type TimestampLogger struct {
+	Wrapped Logger
+}
+
+func (t TimestampLogger) Log(msg string) {
+	ts := time.Now().Format("2006-01-02 15:04:05")
+	t.Wrapped.Log("[" + ts + "] " + msg)
+}
+
 type Server struct {
 	Logger
 }
@@ -36,10 +46,12 @@ func (s *Server) Start() {
 }
 
 func main() {
-	consoleServer := NewServer(ConsoleLogger{})
+	consoleLogger := TimestampLogger{Wrapped: ConsoleLogger{}}
+	consoleServer := NewServer(consoleLogger)
 	consoleServer.Start()
 
 	f, _ := os.Create("app.log")
-	fileServer := NewServer(FileLogger{File: f})
+	fileLogger := TimestampLogger{Wrapped: FileLogger{File: f}}
+	fileServer := NewServer(fileLogger)
 	fileServer.Start()
 }
