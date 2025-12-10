@@ -46,18 +46,58 @@ func (s Student) SaveToFile(filename string) error {
 	return os.WriteFile(filename, data, 0644)
 }
 
-func main() {
-	s := Student{Name: "Vikrant", Marks: []int{80, 85, 90}}
-	s.AddMark(95)
-
-	fmt.Println(s.Name)
-	fmt.Println("Average:", s.Average())
-	fmt.Println("Grade:", s.Grade())
-
-	err := s.SaveToFile("student.json")
+func LoadFromFile(filename string) (Student, error) {
+	data, err := os.ReadFile(filename)
 	if err != nil {
-		fmt.Println("Error writing file:", err)
+		return Student{}, err
+	}
+
+	var s Student
+	err = json.Unmarshal(data, &s)
+	if err != nil {
+		return Student{}, err
+	}
+
+	return s, nil
+}
+
+func main() {
+	var choice int
+
+	fmt.Println("Choose an option:")
+	fmt.Println("1. Save student data to JSON")
+	fmt.Println("2. Load student data from JSON")
+	fmt.Print("Enter choice: ")
+	fmt.Scan(&choice)
+
+	if choice == 1 {
+		s := Student{Name: "Vikrant", Marks: []int{80, 85, 90}}
+		s.AddMark(95)
+
+		fmt.Println("Saving Data:")
+		fmt.Println("Name:", s.Name)
+		fmt.Println("Average:", s.Average())
+		fmt.Println("Grade:", s.Grade())
+
+		err := s.SaveToFile("student.json")
+		if err != nil {
+			fmt.Println("Error writing file:", err)
+		} else {
+			fmt.Println("student.json file created successfully.")
+		}
+	} else if choice == 2 {
+		loaded, err := LoadFromFile("student.json")
+		if err != nil {
+			fmt.Println("Error:", err)
+			return
+		}
+
+		fmt.Println("\nLoaded Data:")
+		fmt.Println("Name:", loaded.Name)
+		fmt.Println("Marks:", loaded.Marks)
+		fmt.Println("Average:", loaded.Average())
+		fmt.Println("Grade:", loaded.Grade())
 	} else {
-		fmt.Println("student.json file created successfully.")
+		fmt.Println("Invalid choice!")
 	}
 }
