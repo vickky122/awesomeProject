@@ -16,10 +16,12 @@ func main() {
 	message3 := make(chan int)
 
 	var wg sync.WaitGroup
-	wg.Add(1)
+	wg.Add(2)
 
 	go func() {
 		defer wg.Done()
+		defer wg.Done()
+
 		time.Sleep(time.Second * 2)
 
 		message <- "Hello from goroutine!"
